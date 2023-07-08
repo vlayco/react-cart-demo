@@ -1,6 +1,10 @@
+import { CartState } from "../../context/Context"
 import Rating from "../filters/Rating"
 
 const ProductCard = ({ product, key }) => {
+
+  const { state: { cart }, dispatch } = CartState()
+
   return (
     <div className="flex flex-col space-y-1 pb-2 items-center border border-black/30 rounded-md" key={key}>
       {/* Image */}
@@ -34,9 +38,24 @@ const ProductCard = ({ product, key }) => {
       <Rating rating={product.ratings} />
 
       {/* Add to and remove from buttons */}
-      <span className="flex flex-row items-center space-x-3">
-        <button className="px-2 py-1 bg-blue-500 hover:bg-blue-600 hover:scale-105 transition-all rounded-md text-white">{!product.inStock ? "Out of Stock" : "Add to Cart"}</button>
-        <button className="px-2 py-1 bg-red-500 hover:bg-red-600 hover:scale-105 transition-all rounded-md text-white">Remove</button>
+      <span className="flex flex-col md:flex-col lg:flex-row items-center space-x-3">
+        
+        { cart.some(p => p.id === product.id) ? (
+          <button onClick={ () => {
+            dispatch({
+              type: 'REMOVE_FROM_CART',
+              payload: product
+            })
+          } } className="px-2 py-1 bg-red-500 hover:bg-red-600 hover:scale-105 transition-all rounded-md text-white">Remove</button>
+        ) : (
+          <button onClick={ () => {
+            dispatch({
+              type: 'ADD_TO_CART',
+              payload: product
+            })
+          } } className="px-2 py-1  bg-blue-500 hover:bg-blue-600 hover:scale-105 transition-all rounded-md text-white">{!product.inStock ? "Out of Stock" : "Add to Cart"}</button>
+        )}
+
       </span>
 
     </div>
