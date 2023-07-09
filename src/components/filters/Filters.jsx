@@ -7,10 +7,9 @@ const Filters = () => {
     byFastDelivery,
     byRating,
     sort,
-    searchQuery,
   }, productDispatch } = CartState();
 
-  console.log(byStock, byFastDelivery, byRating, sort, searchQuery)
+  console.log(byStock, byFastDelivery, byRating, sort)
 
   return (
     <div>
